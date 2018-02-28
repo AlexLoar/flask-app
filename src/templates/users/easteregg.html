@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Easter egg</title>
+    <script src="{{ url_for('static', filename='persons/bower_components/jquery/dist/jquery.min.js') }}"></script>
+
+    <style media="screen" type="text/css">
+        .center {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .btn {
+            background-color:#599bb3;
+            -moz-border-radius:28px;
+            -webkit-border-radius:28px;
+            border-radius:28px;
+            border:1px solid #29668f;
+            cursor:pointer;
+            color:#ffffff;
+            font-size:10px;
+            font-weight:bold;
+            padding:7px 35px;
+            text-decoration:none;
+            text-shadow:0px 1px 0px #3d768a;
+}
+    </style>
+</head>
+<body style="background: black">
+    <img class="center" src="{{ url_for('static', filename='users/img/dt.jpg') }}">
+
+    <input type="text" class="center" id="name" placeholder="Type your name...">
+    <input type="button" class="btn center" id="submit" value="Enter">
+
+<script type="text/javascript">
+    $('#submit').click(function (e) {
+        var name = $('#name').val();
+
+        if(name){
+            var url = "https://api.whatdoestrumpthink.com/api/v1/quotes/personalized?q="+name;
+
+            $.get(url, function( data ) {
+                alert(data.message);
+                });
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>{% block title %}{% endblock %}</title>
+
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700" rel="stylesheet">
+
+	<link href="{{ url_for('static', filename='users/css/font-awesome.min.css') }}" rel="stylesheet">
+
+	<link href="{{ url_for('static', filename='users/css/normalize.css') }}" rel="stylesheet">
+
+	<link href="{{ url_for('static', filename='users/css/milligram.min.css') }}" rel="stylesheet">
+
+	<link href="{{ url_for('static', filename='users/css/styles.css') }}" rel="stylesheet">
+</head>
+
+<body>
+	<div class="navbar">
+        <form action="{{ url_for('users_page.search') }}" method="get">
+            <div class="row">
+                <div class="column column-33 col-site-title"><a href="{{ url_for('users_page.users') }}" class="site-title float-left">Users</a></div>
+                    <div class="column column-40 col-search">
+                        <input type="text" name="keyword" placeholder="Search..." />
+                        <button type="submit" class="btn btn-default fa fa-search" id="search_button"></button>
+                    </div>
+                    <div id="create" class="column column-33">
+                        <a href="{{ url_for('users_page.create_user') }}">New User</a>
+                    </div>
+            </div>
+        </form>
+	</div>
+
+
+    <div class="row">
+		<section id="main-content" class="column">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert background-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+{% block content %}
+{% endblock %}
+    </section>
+</div>
+
+<p class="credit">Template by <a href="https://www.medialoot.com">Medialoot</a></p>
+
+
+<script src="{{ url_for('static', filename='users/js/chart.min.js') }}"></script>
+<script src="{{ url_for('static', filename='users/js/chart-data.js') }}"></script>
+</body>
+</html>

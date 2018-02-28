@@ -1,0 +1,17 @@
+aniso8601==2.0.0
+click==6.7
+Faker==0.8.11
+Flask==0.12.2
+Flask-WTF==0.14.2
+functools32==3.2.3.post2
+ipaddress==1.0.19
+itsdangerous==0.24
+Jinja2==2.10
+jsonschema==2.6.0
+MarkupSafe==1.0
+pony==0.7.3
+python-dateutil==2.6.1
+pytz==2018.3
+text-unidecode==1.2
+Werkzeug==0.14.1
+WTForms==2.1

@@ -1,0 +1,178 @@
+{% extends 'persons/base.html' %}
+
+{% block title %}Persons {% endblock title %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+            <h3 class="box-title" title="Refresh table"><a href="{{ url_for('persons_page.persons') }}">Persons</a></h3>
+
+          <div class="box-tools create-person">
+              <button type="button" class="btn btn-block btn-info" onclick="generatePerson()">Generate person </button>
+          </div>
+          <div class="box-tools">
+            <form action="{{ url_for('persons_page.search_person') }}" method="get">
+                <div class="input-group input-group-sm" style="width: 150px;">
+                      <input type="text" name="q_person" class="form-control pull-right" placeholder="Search...">
+
+                      <div class="input-group-btn">
+                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                      </div>
+                </div>
+            </form>
+          </div>
+        </div>
+        <div class="box-body table-responsive no-padding">
+          <table class="table table-hover custom-hoover">
+            <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>City</th>
+                  <th>Phone</th>
+                </tr>
+            <thead>
+            <tbody>
+              {% for person in persons %}
+                <tr data-toggle="modal" data-target="#modal-party" data-id="{{ person.id }}">
+                  <td>{{ person.id }}</td>
+                  <td>{{ person.name }}</td>
+                  <td>{{ person.city }}</td>
+                  <td>{{ person.phone }}</td>
+                </tr>
+              {% endfor %}
+            <tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    {#  MODAL  #}
+    <div class="modal fade" id="modal-party">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Edit person</h4>
+          </div>
+            <form method="">
+              <div class="modal-body">
+                <div class="form-group">
+                  <label for="person_id">ID</label>
+                  <input type="text" class="form-control" id="id" placeholder="ID" readonly>
+                </div>
+                <div class="form-group">
+                  <label for="person_name">Name</label>
+                  <input type="text" class="form-control" id="name" placeholder="Name">
+                </div>
+                <div class="form-group">
+                  <label for="person_city">City</label>
+                  <input type="text" class="form-control" id="city" placeholder="City">
+                </div>
+                <div class="form-group">
+                  <label for="person_phone">Phone</label>
+                  <input type="text" class="form-control" id="phone" placeholder="Phone">
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal" id="close_modal">Close</button>
+                <button type="button" class="btn btn-danger" onclick="deletePerson();">Delete</button>
+                <button type="button" class="btn btn-primary" id="save">Save changes</button>
+              </div>
+            </form>
+        </div>
+      </div>
+    </div>
+
+
+
+    <script type="text/javascript">
+        function generatePerson(){
+            var ulrRandomApi = "https://randomuser.me/api/";
+            var postData = null;
+            $.ajax({
+                  url: ulrRandomApi,
+                  dataType: 'json',
+                  success: function(data) {
+                      var results = data.results[0];
+                      postData = {
+                          name: results.name.first,
+                          city: results.location.city,
+                          phone: results.phone
+                      };
+                      var urlPOST = "{{ url_for('persons_page.create_person') }}";
+                      $.ajax({
+                          type: "POST",
+                          url: urlPOST,
+                          contentType: 'application/json',
+                          dataType: 'json',
+                          data: JSON.stringify(postData),
+                          success: function(data) {
+                            location.reload();
+                          }
+                        });
+                  }
+                });
+        }
+
+        $("table tbody > tr").click(function() {
+            var personID = $(event.target).closest('tr').data('id');
+            $.ajax({
+                  url: "/persons/person/"+personID,
+                  success:function(data) {
+                      var party_data = data.Person[personID];
+                      $("#id").val(personID);
+                      $("#name").val(party_data.name);
+                      $("#city").val(party_data.city);
+                      $("#phone").val(party_data.phone);
+                  },
+                  error: function(errorThrown){
+                        {# Handle error#}
+                      console.log(errorThrown);
+                      }
+                 });
+        });
+
+        $('#save').click(function (e) {
+            var personID = $("#id").val();
+            var putData = {
+                  name: $("#name").val(),
+                  city: $("#city").val(),
+                  phone: $("#phone").val()
+            };
+
+            var url = "/persons/"+personID;
+            $.ajax({
+                type: "PUT",
+                url: url,
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(putData),
+                success: function (data) {
+                  location.reload();
+                }
+            });
+        });
+
+        function deletePerson() {
+        var personID = $("#id").val();
+        if(!personID) return;
+
+         $.ajax({
+              url: '/persons/delete/'+personID,
+              success:function(response) {
+                  $("#close_modal").click();
+                  location.reload();
+              },
+              error: function(errorThrown){
+                  console.log(errorThrown);
+                  }
+             });
+        }
+    </script>
+{% endblock %}

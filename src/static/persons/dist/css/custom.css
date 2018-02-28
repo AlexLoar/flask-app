@@ -1,0 +1,23 @@
+/* Person table */
+.box-title a {
+    color: inherit;
+}
+.custom-hoover {
+    cursor: pointer;
+}
+
+h1 a {
+    color: inherit;
+}
+
+.create-person {
+    margin-right: 160px;
+}
+
+.create-party button {
+    height: 30px;
+    width: 135px;
+}
+/* End persons_page table */
+
+/*  */

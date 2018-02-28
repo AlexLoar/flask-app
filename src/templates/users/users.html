@@ -1,0 +1,53 @@
+{% extends "users/base.html" %}
+
+{% block content %}
+    <div class="row grid-responsive column-offset-25">
+        <div class="column">
+            <div class="card">
+                <div class="card-title">
+                    <h3>Users</h3>
+                </div>
+                <div class="card-block">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Age</th>
+                                <th>Phone</th>
+                                <th>Location</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in users %}
+                            <tr>
+                                <td>{{ user.id }}</td>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.age }}</td>
+                                <td>{{ user.phone }}</td>
+                                <td>{{ user.location }}</td>
+                                <td align="middle">
+                                    <div class="row">
+                                        <a class="button button-outline" href="{{ url_for('users_page.update_user', user_id=user.id) }}">Edit</a>
+                                        <form action="{{ url_for('users_page.delete_user') }}" method="post">
+                                            <input type="hidden" name="user_id" value="{{ user.id }}">
+                                            <button type="submit" class="button button-delete">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% else %}
+                            </tbody>
+                            </table>
+                            <h3 class="text-center">No users found <i class="fa fa-frown-o"></i></h3>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
