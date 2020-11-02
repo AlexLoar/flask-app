@@ -13,5 +13,5 @@ pony==0.7.3
 python-dateutil==2.6.1
 pytz==2018.3
 text-unidecode==1.2
-Werkzeug==0.14.1
+Werkzeug==0.15.3
 WTForms==2.1
