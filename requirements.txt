@@ -1,7 +1,7 @@
 aniso8601==2.0.0
 click==6.7
 Faker==0.8.11
-Flask==0.12.2
+Flask==1.0
 Flask-WTF==0.14.2
 functools32==3.2.3.post2
 ipaddress==1.0.19
