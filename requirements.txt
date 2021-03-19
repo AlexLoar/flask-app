@@ -6,7 +6,7 @@ Flask-WTF==0.14.2
 functools32==3.2.3.post2
 ipaddress==1.0.19
 itsdangerous==0.24
-Jinja2==2.10.1
+Jinja2==2.11.3
 jsonschema==2.6.0
 MarkupSafe==1.0
 pony==0.7.3
